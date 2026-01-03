@@ -1,8 +1,5 @@
 import { Metadata } from "next"
-
 import Hero from "@modules/home/components/hero"
-import { listCollections } from "@lib/data/collections"
-import { getRegion } from "@lib/data/regions"
 import Footer from "@modules/layout/templates/footer"
 
 export const metadata: Metadata = {
@@ -15,11 +12,10 @@ export default async function Home(props: {
 }) {
   const params = await props.params
 
-  const { countryCode } = params
-
   return (
-    <>
+    <main className="bg-black z-0">
       <Hero />
-    </>
+      <Footer />
+    </main>
   )
 }

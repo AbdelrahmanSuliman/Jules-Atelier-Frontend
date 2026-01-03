@@ -1,155 +1,61 @@
-import { listCategories } from "@lib/data/categories"
-import { listCollections } from "@lib/data/collections"
-import { Text, clx } from "@medusajs/ui"
+"use client" 
 
-import LocalizedClientLink from "@modules/common/components/localized-client-link"
-import MedusaCTA from "@modules/layout/components/medusa-cta"
+import { useState } from "react"
+import { subscribeToNewsletter } from "@lib/actions/newsletter"
 
-export default async function Footer() {
-  const { collections } = await listCollections({
-    fields: "*products",
-  })
-  const productCategories = await listCategories()
+export default function Footer() {
+  const [message, setMessage] = useState("")
+  const [isPending, setIsPending] = useState(false)
+
+  async function handleAction(formData: FormData) {
+    setIsPending(true)
+    const result = await subscribeToNewsletter(formData)
+    setIsPending(false)
+
+    if (result?.error) {
+      setMessage(result.error)
+    } else {
+      setMessage("Welcome to the family.")
+    }
+  }
 
   return (
-    <footer className=" w-full">
+    <footer className="w-full bg-black border-t border-white/5">
       <div className="content-container flex flex-col w-full">
-        <div className="flex flex-col gap-y-6 xsmall:flex-row items-start justify-between py-40">
-          <div>
-            <LocalizedClientLink
-              href="/"
-              className="txt-compact-xlarge-plus text-ui-fg-subtle hover:text-ui-fg-base uppercase"
-            >
-              Medusa Store
-            </LocalizedClientLink>
+        <div className="flex flex-col md:flex-row items-center justify-between py-16 border-b border-white/5 gap-8">
+          <div className="flex flex-col gap-y-2 text-center md:text-left">
+            <h3 className="text-white text-lg font-bold uppercase tracking-[0.2em]">
+              Become Part of the Jules Family
+            </h3>
+            <p className="text-gray-400 text-xs uppercase tracking-widest max-w-[450px] leading-relaxed">
+              An inner circle for those who value detail, quality, and design.
+              Exclusive drops. Private updates. Atelier access.
+            </p>
           </div>
-          <div className="text-small-regular gap-10 md:gap-x-16 grid grid-cols-2 sm:grid-cols-3">
-            {productCategories && productCategories?.length > 0 && (
-              <div className="flex flex-col gap-y-2">
-                <span className="txt-small-plus txt-ui-fg-base">
-                  Categories
-                </span>
-                <ul
-                  className="grid grid-cols-1 gap-2"
-                  data-testid="footer-categories"
-                >
-                  {productCategories?.slice(0, 6).map((c) => {
-                    if (c.parent_category) {
-                      return
-                    }
 
-                    const children =
-                      c.category_children?.map((child) => ({
-                        name: child.name,
-                        handle: child.handle,
-                        id: child.id,
-                      })) || null
-
-                    return (
-                      <li
-                        className="flex flex-col gap-2 text-ui-fg-subtle txt-small"
-                        key={c.id}
-                      >
-                        <LocalizedClientLink
-                          className={clx(
-                            "hover:text-ui-fg-base",
-                            children && "txt-small-plus"
-                          )}
-                          href={`/categories/${c.handle}`}
-                          data-testid="category-link"
-                        >
-                          {c.name}
-                        </LocalizedClientLink>
-                        {children && (
-                          <ul className="grid grid-cols-1 ml-3 gap-2">
-                            {children &&
-                              children.map((child) => (
-                                <li key={child.id}>
-                                  <LocalizedClientLink
-                                    className="hover:text-ui-fg-base"
-                                    href={`/categories/${child.handle}`}
-                                    data-testid="category-link"
-                                  >
-                                    {child.name}
-                                  </LocalizedClientLink>
-                                </li>
-                              ))}
-                          </ul>
-                        )}
-                      </li>
-                    )
-                  })}
-                </ul>
-              </div>
+          <div className="flex flex-col w-full max-w-sm gap-y-2">
+            <form action={handleAction} className="flex items-center gap-x-2">
+              <input
+                name="email" // This name must match formData.get("email")
+                type="email"
+                required
+                placeholder="ENTER YOUR EMAIL"
+                className="bg-white/10 placeholder-white/50 text-white text-xs uppercase tracking-widest rounded-l-md px-4 py-3 focus:outline-none transition-all flex-1 border-b border-transparent focus:border-white"
+              />
+              <button
+                type="submit"
+                disabled={isPending}
+                className="bg-white text-black text-xs font-bold uppercase tracking-widest rounded-r-md px-6 py-3 hover:bg-gray-200 transition-all disabled:opacity-50"
+              >
+                {isPending ? "..." : "Subscribe"}
+              </button>
+            </form>
+            {message && (
+              <p className="text-[10px] text-white uppercase tracking-widest mt-2 animate-pulse">
+                {message}
+              </p>
             )}
-            {collections && collections.length > 0 && (
-              <div className="flex flex-col gap-y-2">
-                <span className="txt-small-plus txt-ui-fg-base">
-                  Collections
-                </span>
-                <ul
-                  className={clx(
-                    "grid grid-cols-1 gap-2 text-ui-fg-subtle txt-small",
-                    {
-                      "grid-cols-2": (collections?.length || 0) > 3,
-                    }
-                  )}
-                >
-                  {collections?.slice(0, 6).map((c) => (
-                    <li key={c.id}>
-                      <LocalizedClientLink
-                        className="hover:text-ui-fg-base"
-                        href={`/collections/${c.handle}`}
-                      >
-                        {c.title}
-                      </LocalizedClientLink>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-            <div className="flex flex-col gap-y-2">
-              <span className="txt-small-plus txt-ui-fg-base">Medusa</span>
-              <ul className="grid grid-cols-1 gap-y-2 text-ui-fg-subtle txt-small">
-                <li>
-                  <a
-                    href="https://github.com/medusajs"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="hover:text-ui-fg-base"
-                  >
-                    GitHub
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="https://docs.medusajs.com"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="hover:text-ui-fg-base"
-                  >
-                    Documentation
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="https://github.com/medusajs/nextjs-starter-medusa"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="hover:text-ui-fg-base"
-                  >
-                    Source code
-                  </a>
-                </li>
-              </ul>
-            </div>
           </div>
-        </div>
-        <div className="flex w-full mb-16 justify-between text-ui-fg-muted">
-          <Text className="txt-compact-small">
-            © {new Date().getFullYear()} Jules Atelier. All rights reserved.
-          </Text>
-          <MedusaCTA />
         </div>
       </div>
     </footer>
