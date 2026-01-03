@@ -6,7 +6,6 @@ import { Text, clx, useToggleState } from "@medusajs/ui"
 import { Fragment } from "react"
 
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
-import CountrySelect from "../country-select"
 import LanguageSelect from "../language-select"
 import { HttpTypes } from "@medusajs/types"
 import { Locale } from "@lib/data/locales"
@@ -28,7 +27,6 @@ type SideMenuProps = {
 }
 
 const SideMenu = ({ regions, locales, currentLocale }: SideMenuProps) => {
-  const countryToggleState = useToggleState()
   const languageToggleState = useToggleState()
 
   return (
@@ -40,7 +38,7 @@ const SideMenu = ({ regions, locales, currentLocale }: SideMenuProps) => {
               <div className="relative flex h-full">
                 <Popover.Button
                   data-testid="nav-menu-button"
-                  className={`text-xl-regular relative h-full flex items-center transition-all ease-out duration-200 focus:outline-none hover:text-ui-fg-base`}
+                  className="md:text-xl text-sm relative h-full flex items-center transition-all ease-out duration-200 focus:outline-none hover:text-ui-fg-base"
                 >
                   Menu
                 </Popover.Button>
@@ -50,7 +48,6 @@ const SideMenu = ({ regions, locales, currentLocale }: SideMenuProps) => {
                 <div
                   className="fixed inset-0 z-[50] bg-black/0 pointer-events-auto"
                   onClick={close}
-                  data-testid="side-menu-backdrop"
                 />
               )}
 
@@ -64,38 +61,31 @@ const SideMenu = ({ regions, locales, currentLocale }: SideMenuProps) => {
                 leaveFrom="opacity-100 backdrop-blur-2xl"
                 leaveTo="opacity-0"
               >
-                <PopoverPanel className="flex flex-col absolute w-full pr-4 sm:pr-0 sm:w-1/3 2xl:w-1/4 sm:min-w-min h-[calc(100vh-1rem)] z-[51] inset-x-0 text-sm text-ui-fg-on-color m-2 backdrop-blur-2xl">
-                  <div
-                    data-testid="nav-menu-popup"
-                    className="flex flex-col h-full bg-[rgba(3,7,18,0.9)] rounded-rounded justify-between p-6"
-                  >
-                    <div className="flex justify-end" id="xmark">
-                      <button data-testid="close-menu-button" onClick={close}>
+                <PopoverPanel className="flex flex-col absolute w-[280px] sm:w-[320px] z-[51] inset-x-0 text-sm text-ui-fg-on-color m-2">
+                  <div className="flex flex-col bg-[rgba(3,7,18,0.95)] rounded-lg shadow-xl p-4 gap-y-6">
+                    <div className="flex justify-end">
+                      <button onClick={close} className="p-1">
                         <XMark />
                       </button>
                     </div>
-
-                    <ul className="flex flex-col gap-6 items-start justify-start">
-                      {Object.entries(SideMenuItems).map(([name, href]) => {
-                        return (
-                          <li key={name}>
-                            <LocalizedClientLink
-                              href={href}
-                              className="text-3xl leading-10 hover:text-ui-fg-disabled"
-                              onClick={close}
-                              data-testid={`${name.toLowerCase()}-link`}
-                            >
-                              {name}
-                            </LocalizedClientLink>
-                          </li>
-                        )
-                      })}
+                    <ul className="flex flex-col gap-3 items-start">
+                      {Object.entries(SideMenuItems).map(([name, href]) => (
+                        <li key={name}>
+                          <LocalizedClientLink
+                            href={href}
+                            className="text-lg md:text-xl leading-tight hover:text-ui-fg-disabled transition-colors"
+                            onClick={close}
+                          >
+                            {name}
+                          </LocalizedClientLink>
+                        </li>
+                      ))}
                     </ul>
 
-                    <div className="flex flex-col gap-y-6">
+                    <div className="border-t border-white/10 pt-4 flex flex-col gap-y-4">
                       {!!locales?.length && (
                         <div
-                          className="flex justify-between"
+                          className="flex justify-between items-center"
                           onMouseEnter={languageToggleState.open}
                           onMouseLeave={languageToggleState.close}
                         >
@@ -113,9 +103,8 @@ const SideMenu = ({ regions, locales, currentLocale }: SideMenuProps) => {
                         </div>
                       )}
 
-                      <Text className="flex justify-between txt-compact-small">
-                        © {new Date().getFullYear()} Jules Atelier. All rights
-                        reserved.
+                      <Text className="txt-compact-xsmall text-white/50">
+                        © {new Date().getFullYear()} Jules Atelier.
                       </Text>
                     </div>
                   </div>

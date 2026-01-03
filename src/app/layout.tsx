@@ -1,24 +1,16 @@
 import { getBaseURL } from "@lib/util/env"
 import { Metadata } from "next"
-import localFont from "next/font/local"
+import { Roboto } from "next/font/google"
 import "styles/globals.css"
 import "flag-icons/css/flag-icons.min.css"
 import { Toaster } from "@medusajs/ui"
 
-const sans = localFont({
-  src: [
-    {
-      path: "../../public/fonts/Gambetta/Gambetta-Regular.otf",
-      weight: "400",
-      style: "normal",
-    },
-    {
-      path: "../../public/fonts/Gambetta/Gambetta-Bold.otf",
-      weight: "700",
-      style: "normal",
-    },
-  ],
+const roboto = Roboto({
+  subsets: ["latin"],
+  weight: ["400", "500", "700"], 
+  style: ["normal", "italic"],
   variable: "--font-sans",
+  display: "swap",
 })
 
 export const metadata: Metadata = {
@@ -27,7 +19,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout(props: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${sans.variable}`}>
+    <html lang="en" className={`${roboto.variable}`}>
       <body className="bg-brand-secondary">
         <Toaster />
         <main>{props.children}</main>

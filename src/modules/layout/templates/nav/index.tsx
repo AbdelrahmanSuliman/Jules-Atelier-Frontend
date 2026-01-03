@@ -16,8 +16,8 @@ export default async function Nav() {
 
   return (
     <div className="sticky top-0 inset-x-0 z-50 group text-white">
-      <header className="relative h-16 mx-auto duration-200">
-        <nav className="content-container px-6 flex items-center justify-between w-full h-full text-small-regular">
+      <header className="relative h-14 md:h-16 mx-auto duration-200">
+        <nav className="content-container px-4 md:px-6 flex items-center justify-between w-full h-full text-xs md:text-small-regular">
           <div className="flex-1 basis-0 h-full flex items-center gap-4">
             <div className="h-full">
               <SideMenu
@@ -57,7 +57,7 @@ export default async function Nav() {
           <div className="flex items-center gap-x-6 h-full flex-1 basis-0 justify-end">
             <div className="hidden sm:flex items-center gap-x-6 h-full">
               <LocalizedClientLink href="/account">
-                <p className="transition-colors hover:text-black text-2xl-regular">
+                <p className="transition-colors hover:text-black text-xl-regular">
                   Account
                 </p>
               </LocalizedClientLink>

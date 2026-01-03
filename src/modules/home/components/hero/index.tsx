@@ -1,5 +1,4 @@
 import { Button, Heading } from "@medusajs/ui"
-
 const Hero = () => {
   return (
     <div className="fixed inset-0 overflow-hidden">
@@ -11,11 +10,14 @@ const Hero = () => {
         muted
         playsInline
       />
-
       <div className="absolute inset-0 bg-black/30" />
 
       <div className="relative z-10 flex h-full w-full flex-col items-center justify-center text-center gap-6">
-        <Button variant="primary" size="large" className="mt-4" asChild>
+        <Button
+          variant="primary"
+          className="mt-4 px-4 py-2 text-sm md:px-8 md:py-4 md:text-base"
+          asChild
+        >
           <a href="/store">Shop the Collection</a>
         </Button>
       </div>
