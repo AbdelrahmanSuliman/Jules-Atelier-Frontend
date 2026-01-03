@@ -86,7 +86,7 @@ const CartDropdown = ({
             href="/cart"
             data-testid="nav-cart-link"
           >
-            <p className="transition-colors text-xl-regular">{`Cart (${totalItems})`}</p>
+            <p className="transition-colors md:text-xl-regular text-sm">{`Cart (${totalItems})`}</p>
           </LocalizedClientLink>
         </PopoverButton>
         <Transition
