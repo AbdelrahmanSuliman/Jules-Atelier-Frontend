@@ -34,7 +34,7 @@ const StoreTemplate = ({
         </Suspense>  */}
        
         <div className="flex flex-col items-center justify-center py-24">
-          <h2 className="text-4xl md:text-6xl font-serif uppercase tracking-[0.3em] opacity-90">
+          <h2 className="text-sm md:text-6xl font-sans uppercase tracking-[0.3em] opacity-90">
             Next Month
           </h2>
  

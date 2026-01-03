@@ -1,11 +1,7 @@
 export default function Julesworldwide() {
   return (
-    <div className="min-h-screen bg-brand-secondary text-white flex items-center justify-center">
-      <div className="w-full max-w-4xl px-6 py-12 flex flex-col gap-y-12">
-        <section className="rounded-lg p-6">
-          <h2 className="text-3xl font-semibold mb-4 text-center">Pending</h2>
-        </section>
-      </div>
-    </div>
+    <h2 className="text-sm md:text-6xl font-sans uppercase tracking-[0.3em] opacity-90 text-center text-white mt-20 md:mt-40">
+      PENDING
+    </h2>
   )
 }
