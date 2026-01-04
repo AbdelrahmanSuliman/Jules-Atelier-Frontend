@@ -91,7 +91,6 @@ export default function AppointmentForm({
       </Heading>
 
       <form onSubmit={handleSubmit} className="space-y-8">
-        {/* Toggle Switch */}
         <div className="space-y-2">
           <Label className="text-white text-xs uppercase tracking-widest">
             Service Type
