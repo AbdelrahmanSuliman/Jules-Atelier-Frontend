@@ -108,7 +108,6 @@ export async function middleware(request: NextRequest) {
     return res
   }
 
-  // Root path should not redirect
   if (pathname === "/") {
     return NextResponse.next()
   }
