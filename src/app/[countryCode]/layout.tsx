@@ -1,13 +1,11 @@
 import { Metadata } from "next"
-import Footer from "@modules/layout/templates/footer"
 import Nav from "@modules/layout/templates/nav"
 import Image from "next/image"
-import LocalizedClientLink from "@modules/common/components/localized-client-link"
+import Link from "next/link"
 
 export const metadata: Metadata = {
   title: "Jules Atelier Homepage",
-  description:
-    "Shop the finest collections.",
+  description: "Shop the finest collections.",
 }
 
 export default async function StoreLayout(props: {
@@ -16,13 +14,12 @@ export default async function StoreLayout(props: {
 }) {
   const params = await props.params
 
-  const { children } = props
-
   return (
     <>
-      <div className="py-12"/>
+      <div className="py-12" />
       <div className="absolute top-6 left-1/2 -translate-x-1/2 z-20">
-        <LocalizedClientLink href="/">
+        {/* Update Logo Link too! */}
+        <Link href={`/${params.countryCode}`}>
           <Image
             src="/images/logo-white.png"
             alt="Jules Atelier"
@@ -30,10 +27,12 @@ export default async function StoreLayout(props: {
             height={80}
             priority
           />
-        </LocalizedClientLink>
+        </Link>
       </div>
-      <Nav />
-      {children}
+
+      <Nav countryCode={params.countryCode} />
+
+      {props.children}
     </>
   )
 }

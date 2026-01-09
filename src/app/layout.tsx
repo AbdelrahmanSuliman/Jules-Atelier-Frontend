@@ -4,7 +4,7 @@ import { Roboto } from "next/font/google"
 import "styles/globals.css"
 import "flag-icons/css/flag-icons.min.css"
 import { Toaster } from "@medusajs/ui"
-
+import Nav from "@modules/layout/templates/nav" 
 const roboto = Roboto({
   subsets: ["latin"],
   weight: ["400", "500", "700"], 
