@@ -40,7 +40,6 @@ export default function ProductActions({
   const [isAdding, setIsAdding] = useState(false)
   const countryCode = useParams().countryCode as string
 
-  // If there is only 1 variant, preselect the options
   useEffect(() => {
     if (product.variants?.length === 1) {
       const variantOptions = optionsAsKeymap(product.variants[0].options)
@@ -59,7 +58,6 @@ export default function ProductActions({
     })
   }, [product.variants, options])
 
-  // update the options when a variant is selected
   const setOptionValue = (optionId: string, value: string) => {
     setOptions((prev) => ({
       ...prev,
@@ -67,7 +65,6 @@ export default function ProductActions({
     }))
   }
 
-  //check if the selected options produce a valid variant
   const isValidVariant = useMemo(() => {
     return product.variants?.some((v) => {
       const variantOptions = optionsAsKeymap(v.options)
@@ -92,19 +89,24 @@ export default function ProductActions({
     router.replace(pathname + "?" + params.toString())
   }, [selectedVariant, isValidVariant])
 
-  // check if the selected variant is in stock
+  // --- REFINED PREORDER LOGIC ---
+
+  // Triggered solely by the allow_backorder flag
+  const isPreorder = useMemo(() => {
+    return !!selectedVariant?.allow_backorder
+  }, [selectedVariant])
+
   const inStock = useMemo(() => {
-    // If we don't manage inventory, we can always add to cart
+    // If we don't manage inventory or allow backorders, it's buyable
     if (selectedVariant && !selectedVariant.manage_inventory) {
       return true
     }
 
-    // If we allow back orders on the variant, we can add to cart
     if (selectedVariant?.allow_backorder) {
       return true
     }
 
-    // If there is inventory available, we can add to cart
+    // Otherwise, check physical stock
     if (
       selectedVariant?.manage_inventory &&
       (selectedVariant?.inventory_quantity || 0) > 0
@@ -112,15 +114,14 @@ export default function ProductActions({
       return true
     }
 
-    // Otherwise, we can't add to cart
     return false
   }, [selectedVariant])
 
-  const actionsRef = useRef<HTMLDivElement>(null)
+  // --- END PREORDER LOGIC ---
 
+  const actionsRef = useRef<HTMLDivElement>(null)
   const inView = useIntersection(actionsRef, "0px")
 
-  // add the selected variant to the cart
   const handleAddToCart = async () => {
     if (!selectedVariant?.id) return null
 
@@ -172,16 +173,24 @@ export default function ProductActions({
             !isValidVariant
           }
           variant="primary"
-          className="w-full h-10"
+          className={`w-full h-12 uppercase tracking-[0.2em] font-bold transition-all duration-300 ${
+            isPreorder
+              ? "bg-white text-black border border-black hover:bg-gray-100"
+              : "bg-black text-white hover:bg-gray-800"
+          }`}
           isLoading={isAdding}
           data-testid="add-product-button"
         >
-          {!selectedVariant && !options
+          {!selectedVariant
             ? "Select variant"
             : !inStock || !isValidVariant
             ? "Out of stock"
+            : isPreorder
+            ? "Pre-order Now"
             : "Add to cart"}
         </Button>
+
+
         <MobileActions
           product={product}
           variant={selectedVariant}

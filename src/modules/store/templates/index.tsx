@@ -23,22 +23,15 @@ const StoreTemplate = ({
       className="flex flex-col small:flex-row small:items-start py-6 content-container min-h-[60vh] bg-[#54463A] text-white"
       data-testid="category-container"
     >
-      {/* <RefinementList sortBy={sort} /> */}
+      <RefinementList sortBy={sort} />
       <div className="w-full flex items-center justify-center">
-        {/* <Suspense fallback={<SkeletonProductGrid />}>
+        <Suspense fallback={<SkeletonProductGrid />}>
           <PaginatedProducts
             sortBy={sort}
             page={pageNumber}
             countryCode={countryCode}
           />
-        </Suspense>  */}
-       
-        <div className="flex flex-col items-center justify-center py-24">
-          <h2 className="text-sm md:text-6xl font-sans uppercase tracking-[0.3em] opacity-90">
-            Next Month
-          </h2>
- 
-        </div>
+        </Suspense>
       </div>
     </div>
   )

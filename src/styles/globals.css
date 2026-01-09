@@ -1,6 +1,7 @@
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -12,11 +13,13 @@
     --brand-dark: #000000;
   }
 
+  /* Core Account Page Styling */
   [data-testid="account-page"],
   [data-testid="account-page"] > div {
     @apply bg-[#54463A] text-white !important;
   }
 
+  /* Global Form Inputs (White background with black text) */
   input,
   select,
   textarea,
@@ -30,6 +33,7 @@
     @apply !text-gray-500 !opacity-100;
   }
 
+  /* Floating Labels & Select Options */
   input:placeholder-shown + label {
     @apply !text-gray-500 !important;
   }
@@ -45,13 +49,19 @@
     color: black !important;
   }
 
+  /* Primary Action Buttons */
   button[type="submit"],
   [data-testid="save-button"] {
     @apply !bg-white !text-[#54463A] hover:!bg-gray-100 font-bold transition-all !important;
   }
-  [data-testid="cart-container"],
+
+  /* Cart Container Styling */
+  [data-testid="cart-container"] {
+    @apply bg-[#54463A] !important;
+  }
+
   [data-testid="cart-container"] * {
-    color: white !important;
+    color: white; /* Removed !important to allow overrides */
   }
 
   [data-testid="cart-container"] table,
@@ -62,11 +72,40 @@
   [data-testid="cart-container"] td {
     @apply bg-[#54463A] text-white border-white/20 !important;
   }
+
+  /* FIX: Visibility for Cart Quantity Selector & Dropdowns */
+  [data-testid="cart-container"] select,
+  [data-testid="cart-container"] button[role="combobox"], 
+  [data-testid="cart-container"] button[data-state] { 
+    @apply !bg-white !text-[#54463A] border-none !important;
+    color: #54463A !important; 
+  }
+
+  [data-testid="cart-container"] button[role="combobox"] svg {
+    @apply !text-[#54463A] !important;
+  }
+
+  /* Secondary Buttons & Edit Buttons */
   [data-testid="edit-button"],
   button.variant-secondary {
     @apply !bg-white/10 !text-white !border-white/20 hover:!bg-white/20 transition-all !important;
   }
 
+  /* FIX: Specific Contrast for Sign In Prompt Button */
+  [data-testid="sign-in-button"] {
+    @apply !bg-white !text-[#54463A] font-bold hover:!bg-gray-100 transition-all !important;
+  }
+
+  /* Typography */
+  h1 {
+    @apply font-sans text-4xl md:text-5xl lg:text-6xl uppercase tracking-wide;
+  }
+
+  h2 {
+    @apply font-sans text-2xl md:text-3xl lg:text-4xl uppercase tracking-tight;
+  }
+
+  /* Autofill Override */
   input:-webkit-autofill,
   input:-webkit-autofill:hover,
   input:-webkit-autofill:focus {
@@ -75,29 +114,15 @@
     transition: background-color 5000s ease-in-out 0s;
   }
 }
-@layer base {
-  h1 {
-    @apply font-sans text-4xl md:text-5xl lg:text-6xl uppercase tracking-wide;
-  }
-
-  h2 {
-    @apply font-sans text-2xl md:text-3xl lg:text-4xl uppercase tracking-tight;
-  }
-}
 
 @layer utilities {
-  /* Chrome, Safari and Opera */
   .no-scrollbar::-webkit-scrollbar {
     display: none;
   }
 
-  .no-scrollbar::-webkit-scrollbar-track {
-    background-color: transparent;
-  }
-
   .no-scrollbar {
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 
   input:focus ~ label,
@@ -107,28 +132,6 @@
 
   input:focus ~ label {
     @apply left-0;
-  }
-
-  input:-webkit-autofill,
-  input:-webkit-autofill:hover,
-  input:-webkit-autofill:focus,
-  textarea:-webkit-autofill,
-  textarea:-webkit-autofill:hover,
-  textarea:-webkit-autofill:focus,
-  select:-webkit-autofill,
-  select:-webkit-autofill:hover,
-  select:-webkit-autofill:focus {
-    border: 1px solid #212121;
-    -webkit-text-fill-color: #212121;
-    -webkit-box-shadow: 0 0 0px 1000px #fff inset;
-    transition: background-color 5000s ease-in-out 0s;
-  }
-
-  input[type="search"]::-webkit-search-decoration,
-  input[type="search"]::-webkit-search-cancel-button,
-  input[type="search"]::-webkit-search-results-button,
-  input[type="search"]::-webkit-search-results-decoration {
-    -webkit-appearance: none;
   }
 }
 
@@ -141,55 +144,17 @@
     @apply px-4 py-2 border border-black rounded-full hover:bg-black hover:text-white transition-colors duration-200 ease-in;
   }
 
-  .text-xsmall-regular {
-    @apply text-[10px] leading-4 font-normal;
-  }
-
-  .text-small-regular {
-    @apply text-xs leading-5 font-normal;
-  }
-
-  .text-small-semi {
-    @apply text-xs leading-5 font-semibold;
-  }
-
-  .text-base-regular {
-    @apply text-sm leading-6 font-normal;
-  }
-
-  .text-base-semi {
-    @apply text-sm leading-6 font-semibold;
-  }
-
-  .text-large-regular {
-    @apply text-base leading-6 font-normal;
-  }
-
-  .text-large-semi {
-    @apply text-base leading-6 font-semibold;
-  }
-
-  .text-xl-regular {
-    @apply text-2xl leading-[36px] font-normal;
-  }
-
-  .text-xl-semi {
-    @apply text-2xl leading-[36px] font-semibold;
-  }
-
-  .text-2xl-regular {
-    @apply text-[30px] leading-[48px] font-normal;
-  }
-
-  .text-2xl-semi {
-    @apply text-[30px] leading-[48px] font-semibold;
-  }
-
-  .text-3xl-regular {
-    @apply text-[32px] leading-[44px] font-normal;
-  }
-
-  .text-3xl-semi {
-    @apply text-[32px] leading-[44px] font-semibold;
-  }
+  .text-xsmall-regular { @apply text-[10px] leading-4 font-normal; }
+  .text-small-regular { @apply text-xs leading-5 font-normal; }
+  .text-small-semi { @apply text-xs leading-5 font-semibold; }
+  .text-base-regular { @apply text-sm leading-6 font-normal; }
+  .text-base-semi { @apply text-sm leading-6 font-semibold; }
+  .text-large-regular { @apply text-base leading-6 font-normal; }
+  .text-large-semi { @apply text-base leading-6 font-semibold; }
+  .text-xl-regular { @apply text-2xl leading-[36px] font-normal; }
+  .text-xl-semi { @apply text-2xl leading-[36px] font-semibold; }
+  .text-2xl-regular { @apply text-[30px] leading-[48px] font-normal; }
+  .text-2xl-semi { @apply text-[30px] leading-[48px] font-semibold; }
+  .text-3xl-regular { @apply text-[32px] leading-[44px] font-normal; }
+  .text-3xl-semi { @apply text-[32px] leading-[44px] font-semibold; }
 }
