@@ -1,5 +1,5 @@
 "use client"
-
+import {} from "@modules/common/components/region-link/index"
 import { Fragment, useEffect, useState } from "react"
 import { Dialog, Transition } from "@headlessui/react"
 import Link from "next/link"
@@ -62,6 +62,11 @@ export default function RegionDrawer() {
                         <Link
                           key={region.id}
                           href={region.href}
+                          onClick={() => {
+                            document.cookie =
+                              "_medusa_cart_id=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;"
+                            setOpen(false) 
+                          }}
                           className="group relative flex items-center justify-between p-6 border border-white/10 hover:border-white/50 hover:bg-white/5 transition-all duration-300"
                         >
                           <span className="text-lg font-bold text-white uppercase tracking-widest group-hover:translate-x-2 transition-transform duration-300">
@@ -84,7 +89,6 @@ export default function RegionDrawer() {
                         </Link>
                       ))}
                     </div>
-
                   </div>
                 </Dialog.Panel>
               </Transition.Child>

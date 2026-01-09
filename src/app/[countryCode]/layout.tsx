@@ -18,7 +18,6 @@ export default async function StoreLayout(props: {
     <>
       <div className="py-12" />
       <div className="absolute top-6 left-1/2 -translate-x-1/2 z-20">
-        {/* Update Logo Link too! */}
         <Link href={`/${params.countryCode}`}>
           <Image
             src="/images/logo-white.png"
