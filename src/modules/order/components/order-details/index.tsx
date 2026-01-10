@@ -17,22 +17,15 @@ const OrderDetails = ({ order, showStatus }: OrderDetailsProps) => {
 
   return (
     <div className="text-white">
-      <Text className="text-white/90">
-        We have sent the order confirmation details to{" "}
-        <span className="text-white font-semibold" data-testid="order-email">
-          {order.email}
-        </span>
-        .
-      </Text>
 
-      <Text className="mt-2 text-white/80">
+      <Text className="mt-2 text-black">
         Order date:{" "}
-        <span data-testid="order-date" className="text-white">
+        <span data-testid="order-date" className="text-black">
           {new Date(order.created_at).toDateString()}
         </span>
       </Text>
 
-      <Text className="mt-2 text-white font-medium">
+      <Text className="mt-2 text-black font-medium">
         Order number: <span data-testid="order-id">{order.display_id}</span>
       </Text>
 
