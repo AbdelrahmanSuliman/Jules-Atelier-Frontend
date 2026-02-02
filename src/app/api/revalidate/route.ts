@@ -1,14 +1,26 @@
-import { revalidateTag } from "next/cache"
+// nextjs-starter/src/app/api/revalidate/route.ts
 import { NextRequest, NextResponse } from "next/server"
+import { revalidatePath } from "next/cache"
 
-export async function POST(request: NextRequest) {
-  const secret = request.nextUrl.searchParams.get("secret")
+export async function GET(req: NextRequest) {
+  const searchParams = req.nextUrl.searchParams
+  const tags = searchParams.get("tags") as string
 
-  if (secret !== process.env.REVALIDATE_SECRET) {
-    return NextResponse.json({ message: "Invalid secret" }, { status: 401 })
+  if (!tags) {
+    return NextResponse.json({ error: "No tags provided" }, { status: 400 })
   }
 
-  revalidateTag("products")
+  const tagsArray = tags.split(",")
 
-  return NextResponse.json({ revalidated: true, now: Date.now() })
+  await Promise.all(
+    tagsArray.map(async (tag) => {
+      switch (tag) {
+        case "products":
+          revalidatePath("/[countryCode]/(main)/store", "page")
+          revalidatePath("/[countryCode]/(main)/products/[handle]", "page")
+      }
+    })
+  )
+
+  return NextResponse.json({ message: "Revalidated" }, { status: 200 })
 }
